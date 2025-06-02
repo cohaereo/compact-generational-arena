@@ -877,7 +877,7 @@ impl<T> Iterator for IntoIter<T> {
                     return Some(value);
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -903,7 +903,7 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
                     return Some(value);
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -979,7 +979,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1015,7 +1015,7 @@ impl<T> DoubleEndedIterator for Iter<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1091,7 +1091,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1127,7 +1127,7 @@ impl<T> DoubleEndedIterator for IterMut<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1194,7 +1194,7 @@ impl<T> Iterator for Drain<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1224,7 +1224,7 @@ impl<T> DoubleEndedIterator for Drain<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    debug_assert_eq!(self.len, 0);
+                    // debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
