@@ -866,8 +866,6 @@ impl<T> Iterator for IntoIter<T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next() {
                 Some(Entry::Free { .. }) => continue,
                 Some(Entry::Occupied { value, .. }) => {
@@ -875,6 +873,7 @@ impl<T> Iterator for IntoIter<T> {
                     return Some(value);
                 }
                 None => {
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     debug_assert_eq!(self.len, 0);
                     return None;
                 }
@@ -890,11 +889,10 @@ impl<T> Iterator for IntoIter<T> {
 impl<T> DoubleEndedIterator for IntoIter<T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next_back() {
                 Some(Entry::Free { .. }) => continue,
                 Some(Entry::Occupied { value, .. }) => {
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     return Some(value);
                 }
@@ -954,8 +952,6 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next() {
                 Some((_, &Entry::Free { .. })) => continue,
                 Some((
@@ -965,6 +961,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
                         ref value,
                     },
                 )) => {
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     let idx = Index {
                         index: index as u32,
@@ -988,8 +985,6 @@ impl<'a, T> Iterator for Iter<'a, T> {
 impl<T> DoubleEndedIterator for Iter<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next_back() {
                 Some((_, &Entry::Free { .. })) => continue,
                 Some((
@@ -999,6 +994,7 @@ impl<T> DoubleEndedIterator for Iter<'_, T> {
                         ref value,
                     },
                 )) => {
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     let idx = Index {
                         index: index as u32,
@@ -1062,8 +1058,6 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next() {
                 Some((_, &mut Entry::Free { .. })) => continue,
                 Some((
@@ -1073,6 +1067,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
                         ref mut value,
                     },
                 )) => {
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     let idx = Index {
                         index: index as u32,
@@ -1096,8 +1091,6 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 impl<T> DoubleEndedIterator for IterMut<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next_back() {
                 Some((_, &mut Entry::Free { .. })) => continue,
                 Some((
@@ -1107,6 +1100,7 @@ impl<T> DoubleEndedIterator for IterMut<'_, T> {
                         ref mut value,
                     },
                 )) => {
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     let idx = Index {
                         index: index as u32,
@@ -1167,8 +1161,6 @@ impl<T> Iterator for Drain<'_, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next() {
                 Some((_, Entry::Free { .. })) => continue,
                 Some((index, Entry::Occupied { generation, value })) => {
@@ -1176,6 +1168,7 @@ impl<T> Iterator for Drain<'_, T> {
                         index: index as u32,
                         generation,
                     };
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     return Some((idx, value));
                 }
@@ -1195,8 +1188,6 @@ impl<T> Iterator for Drain<'_, T> {
 impl<T> DoubleEndedIterator for Drain<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
-
             match self.inner.next_back() {
                 Some((_, Entry::Free { .. })) => continue,
                 Some((index, Entry::Occupied { generation, value })) => {
@@ -1204,6 +1195,7 @@ impl<T> DoubleEndedIterator for Drain<'_, T> {
                         index: index as u32,
                         generation,
                     };
+                    debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
                     self.len -= 1;
                     return Some((idx, value));
                 }
