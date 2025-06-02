@@ -866,6 +866,10 @@ impl<T> Iterator for IntoIter<T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next() {
                 Some(Entry::Free { .. }) => continue,
                 Some(Entry::Occupied { value, .. }) => {
@@ -888,6 +892,10 @@ impl<T> Iterator for IntoIter<T> {
 impl<T> DoubleEndedIterator for IntoIter<T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next_back() {
                 Some(Entry::Free { .. }) => continue,
                 Some(Entry::Occupied { value, .. }) => {
@@ -950,6 +958,10 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next() {
                 Some((_, &Entry::Free { .. })) => continue,
                 Some((
@@ -982,6 +994,10 @@ impl<'a, T> Iterator for Iter<'a, T> {
 impl<T> DoubleEndedIterator for Iter<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next_back() {
                 Some((_, &Entry::Free { .. })) => continue,
                 Some((
@@ -1054,6 +1070,10 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next() {
                 Some((_, &mut Entry::Free { .. })) => continue,
                 Some((
@@ -1086,6 +1106,10 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 impl<T> DoubleEndedIterator for IterMut<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next_back() {
                 Some((_, &mut Entry::Free { .. })) => continue,
                 Some((
@@ -1155,6 +1179,10 @@ impl<T> Iterator for Drain<'_, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next() {
                 Some((_, Entry::Free { .. })) => continue,
                 Some((index, Entry::Occupied { generation, value })) => {
@@ -1181,6 +1209,10 @@ impl<T> Iterator for Drain<'_, T> {
 impl<T> DoubleEndedIterator for Drain<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
+            if self.len == 0 {
+                return None;
+            }
+
             match self.inner.next_back() {
                 Some((_, Entry::Free { .. })) => continue,
                 Some((index, Entry::Occupied { generation, value })) => {
