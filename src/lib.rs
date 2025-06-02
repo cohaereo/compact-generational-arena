@@ -866,9 +866,7 @@ impl<T> Iterator for IntoIter<T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next() {
                 Some(Entry::Free { .. }) => continue,
@@ -877,7 +875,7 @@ impl<T> Iterator for IntoIter<T> {
                     return Some(value);
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -892,9 +890,7 @@ impl<T> Iterator for IntoIter<T> {
 impl<T> DoubleEndedIterator for IntoIter<T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next_back() {
                 Some(Entry::Free { .. }) => continue,
@@ -903,7 +899,7 @@ impl<T> DoubleEndedIterator for IntoIter<T> {
                     return Some(value);
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -958,9 +954,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next() {
                 Some((_, &Entry::Free { .. })) => continue,
@@ -979,7 +973,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -994,9 +988,7 @@ impl<'a, T> Iterator for Iter<'a, T> {
 impl<T> DoubleEndedIterator for Iter<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next_back() {
                 Some((_, &Entry::Free { .. })) => continue,
@@ -1015,7 +1007,7 @@ impl<T> DoubleEndedIterator for Iter<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1070,9 +1062,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next() {
                 Some((_, &mut Entry::Free { .. })) => continue,
@@ -1091,7 +1081,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1106,9 +1096,7 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 impl<T> DoubleEndedIterator for IterMut<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next_back() {
                 Some((_, &mut Entry::Free { .. })) => continue,
@@ -1127,7 +1115,7 @@ impl<T> DoubleEndedIterator for IterMut<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1179,9 +1167,7 @@ impl<T> Iterator for Drain<'_, T> {
 
     fn next(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next() {
                 Some((_, Entry::Free { .. })) => continue,
@@ -1194,7 +1180,7 @@ impl<T> Iterator for Drain<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
@@ -1209,9 +1195,7 @@ impl<T> Iterator for Drain<'_, T> {
 impl<T> DoubleEndedIterator for Drain<'_, T> {
     fn next_back(&mut self) -> Option<Self::Item> {
         loop {
-            if self.len == 0 {
-                return None;
-            }
+            debug_assert_ne!(self.len, 0, "Arena was appended during iteration!");
 
             match self.inner.next_back() {
                 Some((_, Entry::Free { .. })) => continue,
@@ -1224,7 +1208,7 @@ impl<T> DoubleEndedIterator for Drain<'_, T> {
                     return Some((idx, value));
                 }
                 None => {
-                    // debug_assert_eq!(self.len, 0);
+                    debug_assert_eq!(self.len, 0);
                     return None;
                 }
             }
